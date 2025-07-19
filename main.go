@@ -3,13 +3,14 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/joshuaalpuerto/go-rest-api/config"
 )
 
 func main() {
-	var (
-		port = "8080"
-		host = "localhost"
-	)
+	conf := config.New()
+	host := conf.Server.Host
+	port := conf.Server.Port
 
 	// The HandleFunc function registers a handler function for a given pattern.
 	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
