@@ -30,11 +30,11 @@ type DBConf struct {
 	Database string `env:"DB_NAME,default=postgres"`
 }
 
-func New() *Conf {
+func New() Conf {
 	var c Conf
 	if err := envdecode.StrictDecode(&c); err != nil {
 		log.Fatalf("Failed to decode: %s", err)
 	}
 
-	return &c
+	return c
 }
