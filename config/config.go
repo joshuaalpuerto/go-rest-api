@@ -9,8 +9,9 @@ import (
 )
 
 type Conf struct {
-	Server ConfServer
-	DB     DBConf
+	Version string `env:"VERSION,default=v1"`
+	Server  ConfServer
+	DB      DBConf
 }
 
 type ConfServer struct {
