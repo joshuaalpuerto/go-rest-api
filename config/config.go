@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/joeshaw/envdecode"
+	"github.com/joho/godotenv"
 )
 
 type Conf struct {
@@ -33,6 +34,13 @@ type DBConf struct {
 
 func New() Conf {
 	var c Conf
+
+	// Load .env file if it exists
+	if err := godotenv.Load(); err != nil {
+		// Don't fail if .env doesn't exist, just log it
+		log.Printf("No .env file found: %v", err)
+	}
+
 	if err := envdecode.StrictDecode(&c); err != nil {
 		log.Fatalf("Failed to decode: %s", err)
 	}
