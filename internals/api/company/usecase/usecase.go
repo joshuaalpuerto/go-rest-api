@@ -1,4 +1,4 @@
-package usecase
+package companyusecase
 
 import (
 	"context"
@@ -6,12 +6,20 @@ import (
 	companydomain "github.com/joshuaalpuerto/go-rest-api/internals/api/company/domain"
 )
 
-type CompanyUsecase struct {
-	companyRepository companydomain.CompanyRepository
+type CompanyRepository interface {
+	FindAll(ctx context.Context) ([]companydomain.CompanyDB, error)
+	FindOne(ctx context.Context, id string) (*companydomain.CompanyDB, error)
+	Create(ctx context.Context, company companydomain.Company) (*companydomain.CompanyDB, error)
+	Update(ctx context.Context, company companydomain.Company) (*companydomain.CompanyDB, error)
+	Delete(ctx context.Context, id string) (*companydomain.CompanyDB, error)
 }
 
-func NewCompanyUsecase(companyRepository companydomain.CompanyRepository) *CompanyUsecase {
-	return &CompanyUsecase{
+type CompanyUsecase struct {
+	companyRepository CompanyRepository
+}
+
+func NewCompanyUsecase(companyRepository CompanyRepository) CompanyUsecase {
+	return CompanyUsecase{
 		companyRepository: companyRepository,
 	}
 }
