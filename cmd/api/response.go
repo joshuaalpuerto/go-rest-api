@@ -14,31 +14,35 @@ type Response struct {
 }
 
 // JSONResponse sends a JSON response with the given status code
-func JSONResponse(w http.ResponseWriter, statusCode int, data interface{}) {
+func JSONResponse(w http.ResponseWriter, statusCode int, data any) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
-	json.NewEncoder(w).Encode(Response{
+	err := json.NewEncoder(w).Encode(Response{
 		Success: statusCode < 400,
 		Data:    data,
 	})
+
+	return err
 }
 
 // JSONError sends a JSON error response
-func JSONError(w http.ResponseWriter, statusCode int, message string) {
+func JSONError(w http.ResponseWriter, statusCode int, message string) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
-	json.NewEncoder(w).Encode(Response{
+	err := json.NewEncoder(w).Encode(Response{
 		Success: false,
 		Error:   message,
 	})
+
+	return err
 }
 
 // SuccessResponse sends a success response with data
-func SuccessResponse(w http.ResponseWriter, data interface{}) {
-	JSONResponse(w, http.StatusOK, data)
+func SuccessResponse(w http.ResponseWriter, data any) error {
+	return JSONResponse(w, http.StatusOK, data)
 }
 
 // ErrorResponse sends an error response
-func ErrorResponse(w http.ResponseWriter, statusCode int, message string) {
-	JSONError(w, statusCode, message)
+func ErrorResponse(w http.ResponseWriter, statusCode int, message string) error {
+	return JSONError(w, statusCode, message)
 }

@@ -48,6 +48,7 @@ func (app *application) Routes() http.Handler {
 
 	companyHandler := companycontroller.NewCompanyHandler(app.repositories.companyRepository)
 
+	// TODO: move global level middleware. ( remove cors and request logger here.)
 	mux.HandleFunc(fmt.Sprintf("/%s/companies", version), WrapHandlerWithMiddlewares(companyHandler.GetAllCompanies, middlewares.RequestLogger(), middlewares.CORS()))
 	// mux.HandleFunc(fmt.Sprintf("/%s/companies/{id}", version), companyHandler.GetCompanyByID)
 	// mux.HandleFunc(fmt.Sprintf("/%s/companies", version), companyHandler.CreateCompany)
@@ -65,12 +66,16 @@ type HandlerFunc func(w http.ResponseWriter, r *http.Request) (any, error)
 // WrapHandler wraps a handler function with standard middleware and response handling
 func WrapHandlerWithMiddlewares(handler HandlerFunc, mw ...middlewares.MiddlewareFunc) http.HandlerFunc {
 	h := func(w http.ResponseWriter, r *http.Request) {
-		data, err := handler(w, r)
-		if err != nil {
-			ErrorResponse(w, http.StatusInternalServerError, err.Error())
+		data, handlerErr := handler(w, r)
+		if handlerErr != nil {
+			if internalErr := ErrorResponse(w, http.StatusInternalServerError, handlerErr.Error()); internalErr != nil {
+				http.Error(w, "Internal server error", http.StatusInternalServerError)
+			}
 			return
 		}
-		SuccessResponse(w, data)
+		if successErr := SuccessResponse(w, data); successErr != nil {
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+		}
 	}
 
 	// check if there are middlewares if yes then chain them, otherwise just call handler
