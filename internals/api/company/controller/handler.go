@@ -26,13 +26,7 @@ func (h *CompanyHandler) GetAllCompanies(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Convert domain entities to DTOs
-	response := make([]companyusecase.Company, len(companies))
-	for i, company := range companies {
-		response[i] = companyusecase.Company{
-			ID:   company.ID.String(),
-			Name: company.Name,
-		}
-	}
+	response := companyusecase.ToAppCompanies(companies)
 
 	return response, nil
 }
