@@ -87,26 +87,26 @@ func (r *CompanyRepository) Create(ctx context.Context, company companydomain.Co
 	return &companyDB, nil
 }
 
-func (r *CompanyRepository) Update(ctx context.Context, query string, args ...interface{}) (*companydomain.CompanyDB, error) {
-	var company companydomain.CompanyDB
-	err := r.storer.GetDB().QueryRowContext(ctx, query, args...).Scan(
-		&company.ID,
-		&company.Name,
-		&company.CreatedAt,
-		&company.UpdatedAt,
-		&company.CreatedBy,
-		&company.UpdatedBy,
+func (r *CompanyRepository) Update(ctx context.Context, company companydomain.Company) (*companydomain.CompanyDB, error) {
+	var companyDB companydomain.CompanyDB
+	err := r.storer.GetDB().QueryRowContext(ctx, "UPDATE companies SET name = $1 WHERE id = $2 RETURNING *", company.Name, company.ID).Scan(
+		&companyDB.ID,
+		&companyDB.Name,
+		&companyDB.CreatedAt,
+		&companyDB.UpdatedAt,
+		&companyDB.CreatedBy,
+		&companyDB.UpdatedBy,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update: %w", err)
 	}
 
-	return &company, nil
+	return &companyDB, nil
 }
 
-func (r *CompanyRepository) Delete(ctx context.Context, query string, args ...interface{}) (*companydomain.CompanyDB, error) {
+func (r *CompanyRepository) Delete(ctx context.Context, id string) (*companydomain.CompanyDB, error) {
 	var company companydomain.CompanyDB
-	err := r.storer.GetDB().QueryRowContext(ctx, query, args...).Scan(
+	err := r.storer.GetDB().QueryRowContext(ctx, "DELETE FROM companies WHERE id = $1 RETURNING *", id).Scan(
 		&company.ID,
 		&company.Name,
 		&company.CreatedAt,

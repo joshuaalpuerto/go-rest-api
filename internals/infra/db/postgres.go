@@ -12,7 +12,7 @@ type Postgres struct {
 	db *sql.DB
 }
 
-func NewDatabase(config *config.DBConf) (*Postgres, error) {
+func NewDatabase(config config.DBConf) (*Postgres, error) {
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		config.Host, config.Port, config.User, config.Password, config.Database)
 
