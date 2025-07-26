@@ -10,10 +10,10 @@ import (
 )
 
 type CompanyRepository struct {
-	storer *db.Postgres
+	storer db.Postgres
 }
 
-func NewCompanyRepository(db *db.Postgres) *CompanyRepository {
+func NewCompanyRepository(db db.Postgres) *CompanyRepository {
 	return &CompanyRepository{
 		storer: db,
 	}
