@@ -9,20 +9,9 @@ import (
 	"syscall"
 
 	"github.com/joshuaalpuerto/go-rest-api/cmd/api/middlewares"
-	"github.com/joshuaalpuerto/go-rest-api/config"
 
 	companycontroller "github.com/joshuaalpuerto/go-rest-api/internals/api/company/controller"
-	companyusecase "github.com/joshuaalpuerto/go-rest-api/internals/api/company/usecase"
 )
-
-// our DI container
-type application struct {
-	conf         config.Conf
-	repositories struct {
-		companyRepository companyusecase.CompanyRepository
-	}
-	// later we will have storer here and repository
-}
 
 func (app *application) Start(mux http.Handler) error {
 	srv := &http.Server{

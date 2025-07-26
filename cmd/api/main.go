@@ -10,6 +10,16 @@ import (
 	infrarepositories "github.com/joshuaalpuerto/go-rest-api/internals/infra/repositories"
 )
 
+// our DI container
+type application struct {
+	conf         config.Conf
+	repositories repositories
+}
+
+type repositories struct {
+	companyRepository companyusecase.CompanyRepository
+}
+
 // Bootstrap of the application
 func main() {
 	conf := config.New()
@@ -21,15 +31,15 @@ func main() {
 
 	defer db.Close()
 
-	companyRepository := infrarepositories.NewCompanyRepository(db)
+	companyRepository := infrarepositories.NewCompanyRepository(*db)
+
+	repositories := repositories{
+		companyRepository: companyRepository,
+	}
 
 	app := &application{
-		conf: conf,
-		repositories: struct {
-			companyRepository companyusecase.CompanyRepository
-		}{
-			companyRepository: companyRepository,
-		},
+		conf:         conf,
+		repositories: repositories,
 	}
 
 	if err := app.Start(app.Routes()); err != nil {
