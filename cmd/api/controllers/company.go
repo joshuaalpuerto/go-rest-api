@@ -9,16 +9,12 @@ import (
 	companyusecases "github.com/joshuaalpuerto/go-rest-api/internals/api/company/usecases"
 )
 
-type Validator interface {
-	Validate(model any) error
-}
-
 type CompanyHandler struct {
 	companyService companyusecases.CompanyUsecase
 	validator      Validator
 }
 
-func NewCompanyHandler(companyRepository companyusecases.CompanyRepository, validator Validator) CompanyHandler {
+func NewCompanyController(companyRepository companyusecases.CompanyRepository, validator Validator) CompanyHandler {
 	return CompanyHandler{
 		companyService: companyusecases.NewCompanyUsecase(companyRepository),
 		validator:      validator,

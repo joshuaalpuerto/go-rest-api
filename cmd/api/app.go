@@ -46,13 +46,11 @@ func (app *application) Routes() http.Handler {
 	mux := http.NewServeMux()
 	version := app.conf.Version
 
-	companyController := controllers.NewCompanyHandler(app.repositories.companyRepository, app.validator)
-
 	appMiddlewares := []middlewares.MiddlewareFunc{
 		middlewares.RequestLogger(),
 		middlewares.CORS(),
 	}
-
+	companyController := controllers.NewCompanyController(app.repositories.companyRepository, app.validator)
 	mux.HandleFunc(fmt.Sprintf("%s /%s/companies", http.MethodGet, version), middlewares.Chain(companyController.GetAllCompanies, appMiddlewares...))
 	mux.HandleFunc(fmt.Sprintf("%s /%s/companies/{id}", http.MethodGet, version), middlewares.Chain(companyController.GetCompanyByID, appMiddlewares...))
 
