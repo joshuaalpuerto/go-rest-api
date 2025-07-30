@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/joshuaalpuerto/go-rest-api/cmd/api/response"
-	companyusecase "github.com/joshuaalpuerto/go-rest-api/internals/api/company/usecase"
+	companyusecases "github.com/joshuaalpuerto/go-rest-api/internals/api/company/usecases"
 )
 
 type Validator interface {
@@ -13,13 +13,13 @@ type Validator interface {
 }
 
 type CompanyHandler struct {
-	companyService companyusecase.CompanyUsecase
+	companyService companyusecases.CompanyUsecase
 	validator      Validator
 }
 
-func NewCompanyHandler(companyRepository companyusecase.CompanyRepository, validator Validator) CompanyHandler {
+func NewCompanyHandler(companyRepository companyusecases.CompanyRepository, validator Validator) CompanyHandler {
 	return CompanyHandler{
-		companyService: companyusecase.NewCompanyUsecase(companyRepository),
+		companyService: companyusecases.NewCompanyUsecase(companyRepository),
 		validator:      validator,
 	}
 }
@@ -34,12 +34,12 @@ func (h CompanyHandler) GetAllCompanies(w http.ResponseWriter, r *http.Request) 
 	}
 
 	// Convert domain entities to DTOs
-	companiesDTO := companyusecase.ToAppCompanies(companies)
+	companiesDTO := companyusecases.ToAppCompanies(companies)
 	response.SendSuccessResponse(w, companiesDTO, http.StatusOK)
 }
 
 func (h CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
-	var company companyusecase.NewCompany
+	var company companyusecases.NewCompany
 	response := response.Response{}
 
 	if err := json.NewDecoder(r.Body).Decode(&company); err != nil {

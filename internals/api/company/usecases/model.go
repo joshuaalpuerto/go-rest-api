@@ -1,4 +1,4 @@
-package companyusecase
+package companyusecases
 
 import (
 	"time"

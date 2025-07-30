@@ -5,7 +5,8 @@ import (
 	"os"
 
 	"github.com/joshuaalpuerto/go-rest-api/config"
-	companyusecase "github.com/joshuaalpuerto/go-rest-api/internals/api/company/usecase"
+	companyusecases "github.com/joshuaalpuerto/go-rest-api/internals/api/company/usecases"
+
 	"github.com/joshuaalpuerto/go-rest-api/internals/infra/db"
 	infrarepositories "github.com/joshuaalpuerto/go-rest-api/internals/infra/repositories"
 	infravalidator "github.com/joshuaalpuerto/go-rest-api/internals/infra/validator"
@@ -19,7 +20,7 @@ type application struct {
 }
 
 type repositories struct {
-	companyRepository companyusecase.CompanyRepository
+	companyRepository companyusecases.CompanyRepository
 }
 
 // Bootstrap of the application
