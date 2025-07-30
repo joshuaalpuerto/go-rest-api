@@ -6,6 +6,7 @@ import (
 
 	"github.com/joshuaalpuerto/go-rest-api/config"
 	companyusecases "github.com/joshuaalpuerto/go-rest-api/internals/api/company/usecases"
+	userusecases "github.com/joshuaalpuerto/go-rest-api/internals/api/user/usecases"
 
 	"github.com/joshuaalpuerto/go-rest-api/internals/infra/db"
 	infrarepositories "github.com/joshuaalpuerto/go-rest-api/internals/infra/repositories"
@@ -21,6 +22,7 @@ type application struct {
 
 type repositories struct {
 	companyRepository companyusecases.CompanyRepository
+	userRepository    userusecases.UserRepository
 }
 
 // Bootstrap of the application
@@ -35,10 +37,12 @@ func main() {
 	defer db.Close()
 
 	validator := infravalidator.NewValidator()
-	companyRepository := infrarepositories.NewCompanyRepository(*db)
 
+	companyRepository := infrarepositories.NewCompanyRepository(*db)
+	userRepository := infrarepositories.NewUserRepository(*db)
 	repositories := repositories{
 		companyRepository: companyRepository,
+		userRepository:    userRepository,
 	}
 
 	app := &application{

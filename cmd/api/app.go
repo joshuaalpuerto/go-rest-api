@@ -58,10 +58,12 @@ func (app *application) Routes() http.Handler {
 		companyController.CreateCompany,
 		appMiddlewares...,
 	))
-	// mux.HandleFunc(fmt.Sprintf("/%s/companies/{id}", version), companyHandler.UpdateCompany)
-	// mux.HandleFunc(fmt.Sprintf("/%s/companies/{id}", version), companyHandler.DeleteCompany)
 
-	// TODO: add here other endpoint
+	userController := controllers.NewUserController(app.repositories.userRepository, app.validator)
+	mux.HandleFunc(fmt.Sprintf("%s /%s/users", http.MethodPost, version), middlewares.Chain(
+		userController.CreateUser,
+		appMiddlewares...,
+	))
 
 	return mux
 }
