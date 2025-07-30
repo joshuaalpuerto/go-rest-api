@@ -1,9 +1,15 @@
 package companydomain
 
 import (
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
+)
+
+var (
+	ErrNotFound     = errors.New("company not found")
+	ErrNameNotValid = errors.New("name is not valid")
 )
 
 // represent the company entity in the domain
@@ -25,32 +31,14 @@ type CompanyDB struct {
 	UpdatedBy string    `db:"updated_by"`
 }
 
-func (bus *Company) ToDB() CompanyDB {
-	return CompanyDB{
-		ID:        bus.ID,
-		Name:      bus.Name,
-		CreatedAt: bus.CreatedAt,
-		UpdatedAt: bus.UpdatedAt,
-		CreatedBy: bus.CreatedBy,
-		UpdatedBy: bus.UpdatedBy,
-	}
-}
-
 func ToCompanyDomain(db CompanyDB) (Company, error) {
-	c := Company{
-		ID:        db.ID,
-		Name:      db.Name,
-		CreatedAt: db.CreatedAt,
-		UpdatedAt: db.UpdatedAt,
-		CreatedBy: db.CreatedBy,
-		UpdatedBy: db.UpdatedBy,
-	}
-
-	return c, nil
+	// we can use type conversation because properties are the same
+	return Company(db), nil
 }
 
 func ToCompaniesDomain(dbs []CompanyDB) ([]Company, error) {
 	companies := make([]Company, len(dbs))
+	// TODO: throw proper error here when conversation happens.
 	for i, db := range dbs {
 		company, err := ToCompanyDomain(db)
 		if err != nil {
@@ -59,4 +47,12 @@ func ToCompaniesDomain(dbs []CompanyDB) ([]Company, error) {
 		companies[i] = company
 	}
 	return companies, nil
+}
+
+type NewCompany struct {
+	Name      string
+	CreatedBy uuid.UUID
+	UpdatedBy uuid.UUID
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }

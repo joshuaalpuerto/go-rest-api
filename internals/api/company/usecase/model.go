@@ -3,6 +3,7 @@ package companyusecase
 import (
 	"time"
 
+	"github.com/google/uuid"
 	companydomain "github.com/joshuaalpuerto/go-rest-api/internals/api/company/domain"
 )
 
@@ -37,4 +38,19 @@ func ToAppCompanies(c []companydomain.Company) []CompanyDTO {
 		companies[i] = ToAppCompany(v)
 	}
 	return companies
+}
+
+type NewCompany struct {
+	Name string `json:"name" validate:"required"`
+}
+
+// ToDomainCompany converts PostCompany to domain Company
+func (p *NewCompany) ToDomainCompany(userId string) (companydomain.NewCompany, error) {
+	return companydomain.NewCompany{
+		Name:      p.Name,
+		CreatedBy: uuid.MustParse(userId),
+		UpdatedBy: uuid.MustParse(userId),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}, nil
 }
