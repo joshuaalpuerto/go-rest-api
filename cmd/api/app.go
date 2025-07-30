@@ -47,14 +47,14 @@ func (app *application) Routes() http.Handler {
 	version := app.conf.Version
 
 	companyController := controllers.NewCompanyHandler(app.repositories.companyRepository, app.validator)
+
 	appMiddlewares := []middlewares.MiddlewareFunc{
 		middlewares.RequestLogger(),
 		middlewares.CORS(),
 	}
 
-	// TODO: move global level middleware. ( remove cors and request logger here.)
 	mux.HandleFunc(fmt.Sprintf("%s /%s/companies", http.MethodGet, version), middlewares.Chain(companyController.GetAllCompanies, appMiddlewares...))
-	// mux.HandleFunc(fmt.Sprintf("/%s/companies/{id}", version), companyHandler.GetCompanyByID)
+	mux.HandleFunc(fmt.Sprintf("%s /%s/companies/{id}", http.MethodGet, version), middlewares.Chain(companyController.GetCompanyByID, appMiddlewares...))
 
 	mux.HandleFunc(fmt.Sprintf("%s /%s/companies", http.MethodPost, version), middlewares.Chain(
 		companyController.CreateCompany,

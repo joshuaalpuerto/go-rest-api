@@ -50,7 +50,7 @@ func (r *CompanyRepository) FindAll(ctx context.Context) ([]companydomain.Compan
 	return companies, nil
 }
 
-func (r *CompanyRepository) FindOne(ctx context.Context, id string) (*companydomain.CompanyDB, error) {
+func (r *CompanyRepository) FindOneByID(ctx context.Context, id string) (*companydomain.CompanyDB, error) {
 	var company companydomain.CompanyDB
 	err := r.storer.GetDB().QueryRowContext(ctx, "SELECT * FROM companies WHERE id = $1", id).Scan(
 		&company.ID,
@@ -62,7 +62,7 @@ func (r *CompanyRepository) FindOne(ctx context.Context, id string) (*companydom
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, nil
+			return nil, companydomain.ErrNotFound
 		}
 		return nil, fmt.Errorf("failed to query row: %w", err)
 	}

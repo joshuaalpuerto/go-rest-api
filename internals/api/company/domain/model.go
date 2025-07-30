@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	ErrNotFound     = errors.New("company not found")
+	ErrNotFound     = errors.New("not found")
 	ErrNameNotValid = errors.New("name is not valid")
 )
 

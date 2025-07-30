@@ -8,7 +8,7 @@ import (
 
 type CompanyRepository interface {
 	FindAll(ctx context.Context) ([]companydomain.CompanyDB, error)
-	FindOne(ctx context.Context, id string) (*companydomain.CompanyDB, error)
+	FindOneByID(ctx context.Context, id string) (*companydomain.CompanyDB, error)
 	Create(ctx context.Context, company companydomain.NewCompany) (*companydomain.CompanyDB, error)
 	Update(ctx context.Context, company companydomain.Company) (*companydomain.CompanyDB, error)
 	Delete(ctx context.Context, id string) (*companydomain.CompanyDB, error)

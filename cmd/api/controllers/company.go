@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/joshuaalpuerto/go-rest-api/cmd/api/response"
+	companydomain "github.com/joshuaalpuerto/go-rest-api/internals/api/company/domain"
 	companyusecases "github.com/joshuaalpuerto/go-rest-api/internals/api/company/usecases"
 )
 
@@ -59,4 +60,21 @@ func (h CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response.SendSuccessResponse(w, createdCompany, http.StatusCreated)
+}
+
+func (h CompanyHandler) GetCompanyByID(w http.ResponseWriter, r *http.Request) {
+	companyID := r.PathValue("id")
+
+	company, err := h.companyService.GetCompanyByID(companyID)
+	response := response.Response{}
+
+	if err != nil {
+		if err == companydomain.ErrNotFound {
+			response.SendErrorResponse(w, err.Error(), http.StatusNotFound)
+		} else {
+			response.SendErrorResponse(w, err.Error(), http.StatusInternalServerError)
+		}
+		return
+	}
+	response.SendSuccessResponse(w, company, http.StatusOK)
 }
