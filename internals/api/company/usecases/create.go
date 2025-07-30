@@ -10,19 +10,21 @@ import (
 func (c *CompanyUsecase) CreateCompany(nc NewCompany) (*companydomain.Company, error) {
 	// this should come from request
 	userId := "c8d9c08f-4f87-4c5c-8862-2f4abac75f1f"
-	// this is validated
-	domainCompany, err := nc.ToDomainCompany(userId)
+
+	// Validate if incoming payload adhere to the domain model
+	companyEntity, err := nc.ToDomainEntity(userId)
 	if err != nil {
 		return nil, fmt.Errorf("Invalid company: [%+v]: %w", nc, err)
 	}
 
-	companyDB, err := c.companyRepository.Create(context.Background(), domainCompany)
+	result, err := c.companyRepository.Create(context.Background(), companyEntity)
 	if err != nil {
 		return nil, err
 	}
-	companyDomain, err := companydomain.ToCompanyDomain(*companyDB)
+
+	company, err := result.ToDomain()
 	if err != nil {
 		return nil, err
 	}
-	return &companyDomain, nil
+	return &company, nil
 }

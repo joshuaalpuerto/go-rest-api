@@ -45,7 +45,7 @@ type NewCompany struct {
 }
 
 // ToDomainCompany converts PostCompany to domain Company
-func (p *NewCompany) ToDomainCompany(userId string) (companydomain.NewCompany, error) {
+func (p *NewCompany) ToDomainEntity(userId string) (companydomain.NewCompany, error) {
 	return companydomain.NewCompany{
 		Name:      p.Name,
 		CreatedBy: uuid.MustParse(userId),

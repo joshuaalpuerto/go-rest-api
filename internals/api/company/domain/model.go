@@ -31,16 +31,15 @@ type CompanyDB struct {
 	UpdatedBy string    `db:"updated_by"`
 }
 
-func ToCompanyDomain(db CompanyDB) (Company, error) {
+func (c CompanyDB) ToDomain() (Company, error) {
 	// we can use type conversation because properties are the same
-	return Company(db), nil
+	return Company(c), nil
 }
 
-func ToCompaniesDomain(dbs []CompanyDB) ([]Company, error) {
+func ToCompanyEntities(dbs []CompanyDB) ([]Company, error) {
 	companies := make([]Company, len(dbs))
-	// TODO: throw proper error here when conversation happens.
 	for i, db := range dbs {
-		company, err := ToCompanyDomain(db)
+		company, err := db.ToDomain()
 		if err != nil {
 			return nil, err
 		}
