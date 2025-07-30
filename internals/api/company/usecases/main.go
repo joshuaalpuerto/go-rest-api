@@ -23,15 +23,3 @@ func NewCompanyUsecase(companyRepository CompanyRepository) CompanyUsecase {
 		companyRepository: companyRepository,
 	}
 }
-
-// func (c *CompanyUsecase) UpdateCompany(company companydomain.Company) (*companydomain.Company, error) {
-// 	companyDB, err := c.companyRepository.Update(context.Background(), company)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	companyDomain, err := companydomain.ToCompanyDomain(*companyDB)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return &companyDomain, nil
-// }
