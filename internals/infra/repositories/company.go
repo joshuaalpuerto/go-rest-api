@@ -70,9 +70,9 @@ func (r *CompanyRepository) FindOne(ctx context.Context, id string) (*companydom
 	return &company, nil
 }
 
-func (r *CompanyRepository) Create(ctx context.Context, company companydomain.Company) (*companydomain.CompanyDB, error) {
+func (r *CompanyRepository) Create(ctx context.Context, company companydomain.NewCompany) (*companydomain.CompanyDB, error) {
 	var companyDB companydomain.CompanyDB
-	err := r.storer.GetDB().QueryRowContext(ctx, "INSERT INTO companies (name) VALUES ($1) RETURNING *", company.Name).Scan(
+	err := r.storer.GetDB().QueryRowContext(ctx, "INSERT INTO companies (name, created_by, updated_by, created_at, updated_at) VALUES ($1, $2, $3, $4, $5) RETURNING *", company.Name, company.CreatedBy, company.UpdatedBy, company.CreatedAt, company.UpdatedAt).Scan(
 		&companyDB.ID,
 		&companyDB.Name,
 		&companyDB.CreatedAt,
