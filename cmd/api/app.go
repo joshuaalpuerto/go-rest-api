@@ -53,10 +53,10 @@ func (app *application) Routes() http.Handler {
 	}
 
 	// TODO: move global level middleware. ( remove cors and request logger here.)
-	mux.HandleFunc(fmt.Sprintf("%s /%s/companies", http.MethodGet, version), WrapHandlerWithMiddlewares(companyController.GetAllCompanies, appMiddlewares...))
+	mux.HandleFunc(fmt.Sprintf("%s /%s/companies", http.MethodGet, version), middlewares.Chain(companyController.GetAllCompanies, appMiddlewares...))
 	// mux.HandleFunc(fmt.Sprintf("/%s/companies/{id}", version), companyHandler.GetCompanyByID)
 
-	mux.HandleFunc(fmt.Sprintf("%s /%s/companies", http.MethodPost, version), WrapHandlerWithMiddlewares(
+	mux.HandleFunc(fmt.Sprintf("%s /%s/companies", http.MethodPost, version), middlewares.Chain(
 		companyController.CreateCompany,
 		appMiddlewares...,
 	))
@@ -66,15 +66,4 @@ func (app *application) Routes() http.Handler {
 	// TODO: add here other endpoint
 
 	return mux
-}
-
-// WrapHandler wraps a handler function with standard middleware and response handling
-func WrapHandlerWithMiddlewares(handler http.HandlerFunc, mw ...middlewares.MiddlewareFunc) http.HandlerFunc {
-
-	// check if there are middlewares if yes then chain them, otherwise just call handler
-	if len(mw) > 0 {
-		return middlewares.Chain(handler, mw...)
-	}
-
-	return handler
 }
