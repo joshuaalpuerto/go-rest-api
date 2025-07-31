@@ -55,3 +55,14 @@ type NewCompany struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+// ToDomainCompany converts PostCompany to domain Company
+func (p *NewCompany) ToDomainEntity(userId string) (NewCompany, error) {
+	return NewCompany{
+		Name:      p.Name,
+		CreatedBy: uuid.MustParse(userId),
+		UpdatedBy: uuid.MustParse(userId),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}, nil
+}

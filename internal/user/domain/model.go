@@ -2,9 +2,11 @@ package userdomain
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var (
@@ -67,4 +69,22 @@ type NewUser struct {
 	UpdatedBy uuid.UUID
 	CreatedAt time.Time
 	UpdatedAt time.Time
+}
+
+// ToDomainCompany converts PostCompany to domain Company
+func (p *NewUser) ToDomainEntity(userId string) (NewUser, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(p.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return NewUser{}, fmt.Errorf("failed to hash password: %w", err)
+	}
+
+	return NewUser{
+		Name:      p.Name,
+		Email:     p.Email,
+		Password:  string(hashedPassword),
+		CreatedBy: uuid.MustParse(userId),
+		UpdatedBy: uuid.MustParse(userId),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}, nil
 }
