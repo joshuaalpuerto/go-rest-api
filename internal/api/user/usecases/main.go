@@ -3,7 +3,7 @@ package userusecases
 import (
 	"context"
 
-	userdomain "github.com/joshuaalpuerto/go-rest-api/internals/api/user/domain"
+	userdomain "github.com/joshuaalpuerto/go-rest-api/internal/api/user/domain"
 )
 
 type UserRepository interface {

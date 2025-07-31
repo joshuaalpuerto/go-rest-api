@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/joshuaalpuerto/go-rest-api/config"
-	"github.com/joshuaalpuerto/go-rest-api/internals/infra/db"
+	"github.com/joshuaalpuerto/go-rest-api/internal/infra/db"
 )
 
 func main() {

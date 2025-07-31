@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	companydomain "github.com/joshuaalpuerto/go-rest-api/internals/api/company/domain"
+	companydomain "github.com/joshuaalpuerto/go-rest-api/internal/api/company/domain"
 )
 
 // Business logic methods

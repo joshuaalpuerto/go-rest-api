@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	companydomain "github.com/joshuaalpuerto/go-rest-api/internals/api/company/domain"
-	"github.com/joshuaalpuerto/go-rest-api/internals/infra/db"
+	companydomain "github.com/joshuaalpuerto/go-rest-api/internal/api/company/domain"
+	"github.com/joshuaalpuerto/go-rest-api/internal/infra/db"
 )
 
 type CompanyRepository struct {

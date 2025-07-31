@@ -5,12 +5,12 @@ import (
 	"os"
 
 	"github.com/joshuaalpuerto/go-rest-api/config"
-	companyusecases "github.com/joshuaalpuerto/go-rest-api/internals/api/company/usecases"
-	userusecases "github.com/joshuaalpuerto/go-rest-api/internals/api/user/usecases"
+	companyusecases "github.com/joshuaalpuerto/go-rest-api/internal/api/company/usecases"
+	userusecases "github.com/joshuaalpuerto/go-rest-api/internal/api/user/usecases"
 
-	"github.com/joshuaalpuerto/go-rest-api/internals/infra/db"
-	infrarepositories "github.com/joshuaalpuerto/go-rest-api/internals/infra/repositories"
-	infravalidator "github.com/joshuaalpuerto/go-rest-api/internals/infra/validator"
+	"github.com/joshuaalpuerto/go-rest-api/internal/infra/db"
+	infrarepositories "github.com/joshuaalpuerto/go-rest-api/internal/infra/repositories"
+	infravalidator "github.com/joshuaalpuerto/go-rest-api/internal/infra/validator"
 )
 
 // our DI container

@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/joshuaalpuerto/go-rest-api/cmd/api/response"
-	companydomain "github.com/joshuaalpuerto/go-rest-api/internals/api/company/domain"
-	companyusecases "github.com/joshuaalpuerto/go-rest-api/internals/api/company/usecases"
+	companydomain "github.com/joshuaalpuerto/go-rest-api/internal/api/company/domain"
+	companyusecases "github.com/joshuaalpuerto/go-rest-api/internal/api/company/usecases"
 )
 
 type CompanyHandler struct {
