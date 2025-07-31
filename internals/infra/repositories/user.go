@@ -70,12 +70,15 @@ func (r *UserRepository) FindOneByID(ctx context.Context, id string) (*userdomai
 
 func (r *UserRepository) Create(ctx context.Context, user userdomain.NewUser) (*userdomain.UserDB, error) {
 	var userDB userdomain.UserDB
-	err := r.storer.GetDB().QueryRowContext(ctx, "INSERT INTO users (name, email, password, created_at, updated_at) VALUES ($1, $2, $3, $4, $5) RETURNING *", user.Name, user.Email, user.Password, user.CreatedAt, user.UpdatedAt).Scan(
+	err := r.storer.GetDB().QueryRowContext(ctx, "INSERT INTO users (name, email, password, created_at, updated_at, created_by, updated_by) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *", user.Name, user.Email, user.Password, user.CreatedAt, user.UpdatedAt, user.CreatedBy, user.UpdatedBy).Scan(
 		&userDB.ID,
 		&userDB.Name,
 		&userDB.Email,
+		&userDB.Password,
 		&userDB.CreatedAt,
 		&userDB.UpdatedAt,
+		&userDB.CreatedBy,
+		&userDB.UpdatedBy,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create: %w", err)
