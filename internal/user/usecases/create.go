@@ -7,7 +7,7 @@ import (
 	userdomain "github.com/joshuaalpuerto/go-rest-api/internal/user/domain"
 )
 
-func (c *UserUsecase) CreateUser(nc NewUser) (*userdomain.User, error) {
+func (c *UserUsecase) CreateUser(nc userdomain.NewUser) (*userdomain.User, error) {
 	// this should come from request
 	userId := "c8d9c08f-4f87-4c5c-8862-2f4abac75f1f"
 

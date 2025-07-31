@@ -8,9 +8,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/joshuaalpuerto/go-rest-api/cmd/api/middlewares"
-
-	"github.com/joshuaalpuerto/go-rest-api/cmd/api/controllers"
+	httpmiddlewares "github.com/joshuaalpuerto/go-rest-api/internal/common/http/middlewares"
+	companyhttp "github.com/joshuaalpuerto/go-rest-api/internal/company/interfaces/http"
+	userhttp "github.com/joshuaalpuerto/go-rest-api/internal/user/interfaces/http"
 )
 
 func (app *application) Start(mux http.Handler) error {
@@ -46,22 +46,22 @@ func (app *application) Routes() http.Handler {
 	mux := http.NewServeMux()
 	version := app.conf.Version
 
-	appMiddlewares := []middlewares.MiddlewareFunc{
-		middlewares.RequestLogger(),
-		middlewares.CORS(),
+	appMiddlewares := []httpmiddlewares.MiddlewareFunc{
+		httpmiddlewares.RequestLogger(),
+		httpmiddlewares.CORS(),
 	}
-	companyController := controllers.NewCompanyController(app.repositories.companyRepository, app.validator)
-	mux.HandleFunc(fmt.Sprintf("%s /%s/companies", http.MethodGet, version), middlewares.Chain(companyController.GetAllCompanies, appMiddlewares...))
-	mux.HandleFunc(fmt.Sprintf("%s /%s/companies/{id}", http.MethodGet, version), middlewares.Chain(companyController.GetCompanyByID, appMiddlewares...))
+	companyHandler := companyhttp.NewCompanyHandler(app.repositories.companyRepository, *app.validator)
+	mux.HandleFunc(fmt.Sprintf("%s /%s/companies", http.MethodGet, version), httpmiddlewares.Chain(companyHandler.GetAllCompanies, appMiddlewares...))
+	mux.HandleFunc(fmt.Sprintf("%s /%s/companies/{id}", http.MethodGet, version), httpmiddlewares.Chain(companyHandler.GetCompanyByID, appMiddlewares...))
 
-	mux.HandleFunc(fmt.Sprintf("%s /%s/companies", http.MethodPost, version), middlewares.Chain(
-		companyController.CreateCompany,
+	mux.HandleFunc(fmt.Sprintf("%s /%s/companies", http.MethodPost, version), httpmiddlewares.Chain(
+		companyHandler.CreateCompany,
 		appMiddlewares...,
 	))
 
-	userController := controllers.NewUserController(app.repositories.userRepository, app.validator)
-	mux.HandleFunc(fmt.Sprintf("%s /%s/users", http.MethodPost, version), middlewares.Chain(
-		userController.CreateUser,
+	userHandler := userhttp.NewUserHandler(app.repositories.userRepository, *app.validator)
+	mux.HandleFunc(fmt.Sprintf("%s /%s/users", http.MethodPost, version), httpmiddlewares.Chain(
+		userHandler.CreateUser,
 		appMiddlewares...,
 	))
 

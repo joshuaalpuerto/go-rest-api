@@ -5,19 +5,19 @@ import (
 	"os"
 
 	"github.com/joshuaalpuerto/go-rest-api/config"
+	validator "github.com/joshuaalpuerto/go-rest-api/internal/common/validator"
 	companyusecases "github.com/joshuaalpuerto/go-rest-api/internal/company/usecases"
 	userusecases "github.com/joshuaalpuerto/go-rest-api/internal/user/usecases"
 
 	"github.com/joshuaalpuerto/go-rest-api/internal/infra/db"
 	infrarepositories "github.com/joshuaalpuerto/go-rest-api/internal/infra/repositories"
-	infravalidator "github.com/joshuaalpuerto/go-rest-api/internal/infra/validator"
 )
 
 // our DI container
 type application struct {
 	conf         config.Conf
 	repositories repositories
-	validator    *infravalidator.Validator
+	validator    *validator.Validator
 }
 
 type repositories struct {
@@ -36,8 +36,6 @@ func main() {
 
 	defer db.Close()
 
-	validator := infravalidator.NewValidator()
-
 	companyRepository := infrarepositories.NewCompanyRepository(*db)
 	userRepository := infrarepositories.NewUserRepository(*db)
 	repositories := repositories{
@@ -48,7 +46,7 @@ func main() {
 	app := &application{
 		conf:         conf,
 		repositories: repositories,
-		validator:    validator,
+		validator:    validator.NewValidator(),
 	}
 
 	if err := app.Start(app.Routes()); err != nil {
