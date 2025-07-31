@@ -7,6 +7,7 @@ import (
 	"github.com/joshuaalpuerto/go-rest-api/config"
 	validator "github.com/joshuaalpuerto/go-rest-api/internal/common/validator"
 	companyusecases "github.com/joshuaalpuerto/go-rest-api/internal/company/usecases"
+	onboardingusecases "github.com/joshuaalpuerto/go-rest-api/internal/onboarding/usecases"
 	userusecases "github.com/joshuaalpuerto/go-rest-api/internal/user/usecases"
 
 	"github.com/joshuaalpuerto/go-rest-api/internal/infra/db"
@@ -21,8 +22,9 @@ type application struct {
 }
 
 type repositories struct {
-	companyRepository companyusecases.CompanyRepository
-	userRepository    userusecases.UserRepository
+	companyRepository    companyusecases.CompanyRepository
+	userRepository       userusecases.UserRepository
+	onboardingRepository onboardingusecases.OnboardingRepository
 }
 
 // Bootstrap of the application
@@ -36,17 +38,21 @@ func main() {
 
 	defer db.Close()
 
+	validator := validator.NewValidator()
+
 	companyRepository := infrarepositories.NewCompanyRepository(*db)
 	userRepository := infrarepositories.NewUserRepository(*db)
+	onboardingRepository := infrarepositories.NewOnboardingRepository(*db)
 	repositories := repositories{
-		companyRepository: companyRepository,
-		userRepository:    userRepository,
+		companyRepository:    companyRepository,
+		userRepository:       userRepository,
+		onboardingRepository: onboardingRepository,
 	}
 
 	app := &application{
 		conf:         conf,
 		repositories: repositories,
-		validator:    validator.NewValidator(),
+		validator:    validator,
 	}
 
 	if err := app.Start(app.Routes()); err != nil {

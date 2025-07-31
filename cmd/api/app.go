@@ -10,6 +10,7 @@ import (
 
 	httpmiddlewares "github.com/joshuaalpuerto/go-rest-api/internal/common/http/middlewares"
 	companyhttp "github.com/joshuaalpuerto/go-rest-api/internal/company/interfaces/http"
+	onboardinghttp "github.com/joshuaalpuerto/go-rest-api/internal/onboarding/interfaces/http"
 	userhttp "github.com/joshuaalpuerto/go-rest-api/internal/user/interfaces/http"
 )
 
@@ -62,6 +63,12 @@ func (app *application) Routes() http.Handler {
 	userHandler := userhttp.NewUserHandler(app.repositories.userRepository, *app.validator)
 	mux.HandleFunc(fmt.Sprintf("%s /%s/users", http.MethodPost, version), httpmiddlewares.Chain(
 		userHandler.CreateUser,
+		appMiddlewares...,
+	))
+
+	onboardingHandler := onboardinghttp.NewOnboardingHandler(app.repositories.onboardingRepository, app.repositories.companyRepository, app.repositories.userRepository, *app.validator)
+	mux.HandleFunc(fmt.Sprintf("%s /%s/onboarding", http.MethodPost, version), httpmiddlewares.Chain(
+		onboardingHandler.RegisterUserCompany,
 		appMiddlewares...,
 	))
 

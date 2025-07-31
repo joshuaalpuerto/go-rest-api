@@ -29,7 +29,7 @@ func main() {
 }
 
 func runMigrations(db *sql.DB) error {
-	migrationsDir := "internals/infra/migrations/postgres"
+	migrationsDir := "internal/infra/migrations/postgres"
 	files, err := os.ReadDir(migrationsDir)
 	if err != nil {
 		return err
