@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	companydomain "github.com/joshuaalpuerto/go-rest-api/internal/api/company/domain"
+	companydomain "github.com/joshuaalpuerto/go-rest-api/internal/company/domain"
 )
 
 func (c *CompanyUsecase) CreateCompany(nc NewCompany) (*companydomain.Company, error) {

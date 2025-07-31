@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	userdomain "github.com/joshuaalpuerto/go-rest-api/internal/api/user/domain"
+	userdomain "github.com/joshuaalpuerto/go-rest-api/internal/user/domain"
 )
 
 func (c *UserUsecase) CreateUser(nc NewUser) (*userdomain.User, error) {

@@ -7,7 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/google/uuid"
-	userdomain "github.com/joshuaalpuerto/go-rest-api/internal/api/user/domain"
+	userdomain "github.com/joshuaalpuerto/go-rest-api/internal/user/domain"
 )
 
 // Contract of what company looks like to the client

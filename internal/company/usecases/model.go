@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	companydomain "github.com/joshuaalpuerto/go-rest-api/internal/api/company/domain"
+	companydomain "github.com/joshuaalpuerto/go-rest-api/internal/company/domain"
 )
 
 // Contract of what company looks like to the client

@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/joshuaalpuerto/go-rest-api/cmd/api/response"
-	userusecases "github.com/joshuaalpuerto/go-rest-api/internal/api/user/usecases"
+	userusecases "github.com/joshuaalpuerto/go-rest-api/internal/user/usecases"
 )
 
 type UserHandler struct {

@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/joshuaalpuerto/go-rest-api/config"
-	companyusecases "github.com/joshuaalpuerto/go-rest-api/internal/api/company/usecases"
-	userusecases "github.com/joshuaalpuerto/go-rest-api/internal/api/user/usecases"
+	companyusecases "github.com/joshuaalpuerto/go-rest-api/internal/company/usecases"
+	userusecases "github.com/joshuaalpuerto/go-rest-api/internal/user/usecases"
 
 	"github.com/joshuaalpuerto/go-rest-api/internal/infra/db"
 	infrarepositories "github.com/joshuaalpuerto/go-rest-api/internal/infra/repositories"

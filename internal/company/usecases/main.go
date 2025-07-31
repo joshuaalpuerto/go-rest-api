@@ -3,7 +3,7 @@ package companyusecases
 import (
 	"context"
 
-	companydomain "github.com/joshuaalpuerto/go-rest-api/internal/api/company/domain"
+	companydomain "github.com/joshuaalpuerto/go-rest-api/internal/company/domain"
 )
 
 type CompanyRepository interface {

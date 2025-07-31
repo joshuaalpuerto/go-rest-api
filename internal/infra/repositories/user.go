@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	userdomain "github.com/joshuaalpuerto/go-rest-api/internal/api/user/domain"
 	"github.com/joshuaalpuerto/go-rest-api/internal/infra/db"
+	userdomain "github.com/joshuaalpuerto/go-rest-api/internal/user/domain"
 )
 
 type UserRepository struct {

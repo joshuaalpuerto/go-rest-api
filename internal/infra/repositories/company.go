@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	companydomain "github.com/joshuaalpuerto/go-rest-api/internal/api/company/domain"
+	companydomain "github.com/joshuaalpuerto/go-rest-api/internal/company/domain"
 	"github.com/joshuaalpuerto/go-rest-api/internal/infra/db"
 )
 
