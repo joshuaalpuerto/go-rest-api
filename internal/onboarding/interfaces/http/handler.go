@@ -18,8 +18,12 @@ type OnboardingHandler struct {
 }
 
 func NewOnboardingHandler(onboardingRepository onboardingusecases.OnboardingRepository, companyRepository companyusecases.CompanyRepository, userRepository userusecases.UserRepository, validator commonvalidator.Validator) OnboardingHandler {
+
+	companyService := companyusecases.NewCompanyUsecase(companyRepository)
+	userService := userusecases.NewUserUsecase(userRepository)
+
 	return OnboardingHandler{
-		onboardingService: onboardingusecases.NewOnboardingUsecase(onboardingRepository, companyRepository, userRepository),
+		onboardingService: onboardingusecases.NewOnboardingUsecase(onboardingRepository, companyService, userService),
 		validator:         validator,
 	}
 }

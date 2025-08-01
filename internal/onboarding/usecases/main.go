@@ -14,14 +14,14 @@ type OnboardingRepository interface {
 
 type OnboardingUsecase struct {
 	onboardingRepository OnboardingRepository
-	companyRepository    companyusecases.CompanyRepository
-	userRepository       userusecases.UserRepository
+	companyService       companyusecases.CompanyUsecase
+	userService          userusecases.UserUsecase
 }
 
-func NewOnboardingUsecase(onboardingRepository OnboardingRepository, companyRepository companyusecases.CompanyRepository, userRepository userusecases.UserRepository) OnboardingUsecase {
+func NewOnboardingUsecase(onboardingRepository OnboardingRepository, companyService companyusecases.CompanyUsecase, userService userusecases.UserUsecase) OnboardingUsecase {
 	return OnboardingUsecase{
 		onboardingRepository: onboardingRepository,
-		companyRepository:    companyRepository,
-		userRepository:       userRepository,
+		companyService:       companyService,
+		userService:          userService,
 	}
 }
