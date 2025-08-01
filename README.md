@@ -1,8 +1,4 @@
-# Go REST API Learning Project
-
-Welcome to your Go learning journey! This project is designed to help you learn Go by building a REST API from scratch.
-
-## 🎯 Learning Objectives
+# 🎯 Learning Objectives
 
 By the end of this project, you'll understand:
 - Go syntax and language fundamentals
